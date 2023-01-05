@@ -2,13 +2,18 @@
 
 namespace Lucius\ShineMonitorApi;
 
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
+use Lucius\ShineMonitorApi\Contracts\ShineMonitorRequestContract;
+use Lucius\ShineMonitorApi\Contracts\ShineMonitorResponseContract;
+use Lucius\ShineMonitorApi\Responses\ShineMonitorResponse;
 
 class ShineMonitorClient
 {
-    public function __construct()
+    public function send(ShineMonitorRequestContract $request): ShineMonitorResponseContract
     {
-       
-//        SHA-1(salt + SHA-1(pwd) + "&action=auth&usr=" + usr + "&company-key=" + company-key);
+        $method = mb_convert_case($request->getMethod(), MB_CASE_LOWER);
+        $response = Http::ShineMonitor()->{$method}('/', $request->getData());
+
+        return new ShineMonitorResponse($response);
     }
 }

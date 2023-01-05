@@ -2,8 +2,6 @@
 
 namespace Lucius\ShineMonitorApi;
 
-use Carbon\Carbon;
-use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use Lucius\ShineMonitorApi\Commands\TestCommand;
@@ -31,25 +29,22 @@ class ShineMonitorServiceProvider extends ServiceProvider
 
     protected function registerConfig(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/shine-monitor.php', 'shine-monitor');
+        $this->mergeConfigFrom(__DIR__.'/../config/shine-monitor.php', 'shine-monitor');
     }
 
     protected function registerCommands(): void
     {
-        if ($this->app['config']->get('flare.key')) {
-            $this->commands([
-                TestCommand::class,
-            ]);
-        }
+        $this->commands([
+            TestCommand::class,
+        ]);
     }
 
     protected function publishConfigs(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/shine-monitor.php' => config_path('shine-monitor.php'),
+            __DIR__.'/../config/shine-monitor.php' => config_path('shine-monitor.php'),
         ], 'shine-monitor-config');
     }
-
 
     protected function registerShineMonitor(): void
     {
@@ -68,24 +63,8 @@ class ShineMonitorServiceProvider extends ServiceProvider
 
     protected function registerHttpMacros()
     {
-        Http::macro('ShineMonitor', function() {
-            return Http::getFacadeRoot()
-                ->beforeSending(function(PendingRequest $request) {
-                    $a = 0;
-                    //sign the request
-//                    $salt = Carbon::now()->timestamp;
-//                    dd([$salt,  sha1(
-//                        $salt
-//                        . "&action=auth&usr="
-//                        . $usr
-//                        . "&company-key=" . $companyKey
-//                    )]);
-                })
-                ->withHeaders([
-                    'secretVersion' => 1,
-                    'Content-Type' => 'application/json',
-                ])
-                ->withBasicAuth(config('msmarthome.api_username'), config('msmarthome.api_password'));
+        Http::macro('ShineMonitor', function () {
+            return Http::baseUrl(config('shine-monitor.base_url'))->acceptJson();
         });
     }
 }

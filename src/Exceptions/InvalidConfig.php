@@ -3,7 +3,6 @@
 namespace Lucius\ShineMonitorApi\Exceptions;
 
 use Exception;
-use Monolog\Logger;
 
 class InvalidConfig extends Exception
 {
