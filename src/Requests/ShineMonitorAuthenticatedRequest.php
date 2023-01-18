@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Lucius\ShineMonitorApi\Contracts\ShineMonitorRequestContract;
 
-class ShineMonitorAuthenticatedRequest extends ShineMonitorSignedRequest implements ShineMonitorRequestContract
+class ShineMonitorAuthenticatedRequest extends ShineMonitorSignedRequest
 {
     protected $token;
 
@@ -26,13 +26,13 @@ class ShineMonitorAuthenticatedRequest extends ShineMonitorSignedRequest impleme
     {
         $salt = Carbon::now()->getTimestampMS();
         $token = $this->token;
-        $queryData = $this->data;
-
-        if (array_key_exists('password', $queryData)) {
-            $finalData = Arr::except($queryData, ['password']);
-        } else {
-            $finalData = $queryData;
-        }
+//        $queryData = $this->data;
+//        if (array_key_exists('password', $queryData)) {
+//            $finalData = Arr::except($queryData, ['password']);
+//        } else {
+//            $finalData = $queryData;
+//        }
+        $finalData = $this->data;
         $queryString = \http_build_query($finalData, '', '&');
         $sign = sha1($salt
             .$this->secret

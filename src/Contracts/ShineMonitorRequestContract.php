@@ -8,5 +8,5 @@ interface ShineMonitorRequestContract
 
     public function getData(): array;
 
-    public function send(): ShineMonitorResponseContract;
+    public function send(): ShineMonitorResponseContract | ShineMonitorModelContract;
 }

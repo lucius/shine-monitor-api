@@ -22,7 +22,7 @@ class ShineMonitorResponse implements ShineMonitorResponseContract
 
     public function json(): array
     {
-        return $this->response->json();
+        return $this->response->json()['dat'];
     }
 
     public function headers()

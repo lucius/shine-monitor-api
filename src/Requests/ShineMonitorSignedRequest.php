@@ -4,9 +4,11 @@ namespace Lucius\ShineMonitorApi\Requests;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Lucius\ShineMonitorApi\Contracts\ShineMonitorModelContract;
 use Lucius\ShineMonitorApi\Contracts\ShineMonitorRequestContract;
 use Lucius\ShineMonitorApi\Contracts\ShineMonitorResponseContract;
 use Lucius\ShineMonitorApi\Facades\ShineMonitor;
+use Lucius\ShineMonitorApi\Models\AuthenticationData;
 
 class ShineMonitorSignedRequest implements ShineMonitorRequestContract
 {
@@ -45,8 +47,10 @@ class ShineMonitorSignedRequest implements ShineMonitorRequestContract
         return $finalData;
     }
 
-    public function send(): ShineMonitorResponseContract
+    public function send(): ShineMonitorResponseContract | ShineMonitorModelContract
     {
-        return ShineMonitor::send($this);
+        $response = ShineMonitor::send($this);
+
+        return AuthenticationData::makeFromResponse($response);
     }
 }
