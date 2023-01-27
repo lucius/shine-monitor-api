@@ -48,7 +48,7 @@ class ShineMonitorServiceProvider extends ServiceProvider
 
     protected function registerShineMonitor(): void
     {
-        $this->app->singleton(ShineMonitor::class, function () {
+        $this->app->instance(ShineMonitor::class, function () {
             return new ShineMonitorClient();
         });
     }

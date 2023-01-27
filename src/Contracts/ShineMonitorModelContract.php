@@ -6,5 +6,5 @@ use Lucius\ShineMonitorApi\Responses\ShineMonitorResponse;
 
 interface ShineMonitorModelContract
 {
-    public static function makeFromResponse(ShineMonitorResponse $response): self;
+    public static function makeFromResponse(ShineMonitorResponse $response, string $root): mixed;
 }

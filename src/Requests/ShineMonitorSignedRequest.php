@@ -47,7 +47,7 @@ class ShineMonitorSignedRequest implements ShineMonitorRequestContract
         return $finalData;
     }
 
-    public function send(): ShineMonitorResponseContract | ShineMonitorModelContract
+    public function send(): ShineMonitorResponseContract|ShineMonitorModelContract
     {
         $response = ShineMonitor::send($this);
 
